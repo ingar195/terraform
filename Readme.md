@@ -1,5 +1,23 @@
 # Creating a New VM — Quick Guide
 
+## Overview
+
+```mermaid
+flowchart TD
+    A["Copy an existing .tf file<br/>(e.g. nfs_gateway.tf)"] --> B["Fill in the REPLACE_ME fields:<br/>vm_name, vm_id, target_node,<br/>network_bridge, ip_address, gateway"]
+    B --> C["terraform init"]
+    C --> D["terraform plan<br/>(confirm: 1 to add, nothing else)"]
+    D --> E{"Plan looks right?"}
+    E -- No --> B
+    E -- Yes --> F["terraform apply"]
+    F --> G["Add host to Ansible<br/>hosts.ini + inventory_public"]
+    G --> H["Write or reuse an<br/>Ansible role for the service"]
+    H --> I["Add a play in site.yml"]
+    I --> J["Verify SSH:<br/>ssh user@ip 'hostname'"]
+    J --> K["ansible-playbook -i hosts.ini<br/>site.yml --limit group-name"]
+    K --> L["Verify the service is up"]
+```
+
 ## 1. Copy an existing `.tf` file as your starting point
 
 Pick any existing one (`nfs_gateway.tf` is a good simple example) and copy it
