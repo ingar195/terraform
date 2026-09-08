@@ -12,6 +12,14 @@ module "komodo_manager" {
   ip_address      = "10.11.0.51/24"
   gateway         = "10.11.0.1"
   ssh_public_keys = var.ssh_public_keys
+
+  notes = <<-EOT
+    Runs Komodo, the Docker Compose orchestrator for the homelab. Mongo
+    data lives on NFS (nfs-gw01, export `/komodo-manager`), not local
+    disk, so this VM is fully disposable.
+
+    Deployed by Terraform (this file) + Ansible role `komodo`.
+  EOT
 }
 
 output "komodo_manager_ip" {

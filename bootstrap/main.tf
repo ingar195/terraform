@@ -11,6 +11,13 @@ module "minio_vm" {
   ip_address      = var.minio_vm_ip_address
   gateway         = var.minio_vm_gateway
   ssh_public_keys = var.ssh_public_keys
+
+  notes = <<-EOT
+    MinIO VM providing the S3-compatible Terraform remote state backend
+    (bucket `tf-state`) for the fleet's Terraform config.
+
+    Deployed by Terraform (this file).
+  EOT
 }
 
 output "minio_vm_ip" {

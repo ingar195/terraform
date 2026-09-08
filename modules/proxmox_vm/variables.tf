@@ -91,3 +91,9 @@ variable "ssh_public_keys" {
   type        = list(string)
   description = "SSH public keys injected via cloud-init"
 }
+
+variable "notes" {
+  type        = string
+  default     = ""
+  description = "Markdown notes shown in the Proxmox UI's VM Notes panel (maps to the VM's description field)"
+}

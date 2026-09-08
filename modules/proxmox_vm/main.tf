@@ -3,9 +3,10 @@ locals {
 }
 
 resource "proxmox_virtual_environment_vm" "this" {
-  name      = var.vm_name
-  node_name = var.target_node
-  vm_id     = var.vm_id
+  name        = var.vm_name
+  node_name   = var.target_node
+  vm_id       = var.vm_id
+  description = var.notes
 
   clone {
     vm_id     = var.template_vm_id

@@ -11,6 +11,14 @@ module "nfs_gateway" {
   ip_address      = "10.11.0.53/24"
   gateway         = "10.11.0.1"
   ssh_public_keys = var.ssh_public_keys
+
+  notes = <<-EOT
+    NFS-Ganesha gateway exposing CephFS `shared-data` to hosts that can't
+    mount CephFS natively (Docker via NFS volume driver). Gives Komodo
+    containers shared, off-VM persistent storage.
+
+    Deployed by Terraform (this file) + Ansible role `nfs_gateway`.
+  EOT
 }
 
 output "nfs_gateway_ip" {
