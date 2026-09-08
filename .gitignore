@@ -1,0 +1,10 @@
+.pve_api
+.minio_credentials
+
+# Terraform local state / working files
+*.tfstate
+*.tfstate.*
+.terraform/
+crash.log
+override.tf
+override.tf.json
