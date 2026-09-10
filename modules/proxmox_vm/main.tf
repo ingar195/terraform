@@ -42,11 +42,20 @@ resource "proxmox_virtual_environment_vm" "this" {
   }
 
   network_device {
-    bridge  = var.network_bridge
-    vlan_id = var.vlan_id
+    bridge      = var.network_bridge
+    vlan_id     = var.vlan_id
+    mac_address = var.mac_address
   }
 
   initialization {
+    # Explicit, not inherited from the template's clone default: the
+    # template's cloud-init disk lives on "storage_pool", a node-local ZFS
+    # pool that only exists on pve02 (disabled/zero-capacity elsewhere,
+    # confirmed after pve01's reimage). Pinning it to disk_datastore keeps
+    # cross-node clones (template_node != target_node) from failing
+    # migration with "storage 'storage_pool' is not available on node ...".
+    datastore_id = var.disk_datastore
+
     ip_config {
       ipv4 {
         address = var.ip_address

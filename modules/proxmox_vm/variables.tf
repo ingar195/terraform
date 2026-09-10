@@ -65,6 +65,12 @@ variable "vlan_id" {
   description = "Optional VLAN tag for the network device"
 }
 
+variable "mac_address" {
+  type        = string
+  default     = null
+  description = "Optional MAC address to pin on the network device. Terraform clones otherwise get a fresh MAC each time, which silently breaks any external MAC-keyed firewall/switch/DHCP rule even when everything Terraform/Ansible-side is correct. Set this to a previous VM's MAC when recreating it to avoid needing to update those rules manually."
+}
+
 variable "ip_address" {
   type        = string
   description = "Static IPv4 address in CIDR form, e.g. 10.11.0.50/24"
