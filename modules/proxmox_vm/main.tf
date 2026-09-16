@@ -15,11 +15,13 @@ resource "proxmox_virtual_environment_vm" "this" {
   }
 
   lifecycle {
-    # The clone source only matters at creation time. Once a VM exists,
-    # Terraform must never re-evaluate this block — doing so either forces
-    # an unwanted destroy+recreate (if the value changes) or errors outright
-    # (if the historical source VM/node no longer exists).
-    ignore_changes = [clone]
+    # clone: the source only matters at creation time -- re-evaluating it
+    # forces an unwanted destroy+recreate or errors if the source is gone.
+    # node_name: once a VM is HA-managed, Proxmox's HA manager can relocate
+    # it to any node in the group at any time. Tracking node_name here would
+    # make Terraform see that as drift and try to migrate it back on every
+    # apply -- caused an unplanned reboot doing exactly that (2026-09-13).
+    ignore_changes = [clone, node_name]
   }
 
   agent {
@@ -72,4 +74,11 @@ resource "proxmox_virtual_environment_vm" "this" {
       keys     = var.ssh_public_keys
     }
   }
+}
+
+resource "proxmox_haresource" "this" {
+  resource_id  = "vm:${var.vm_id}"
+  state        = "started"
+  max_restart  = 3
+  max_relocate = 3
 }

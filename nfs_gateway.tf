@@ -3,7 +3,7 @@ module "nfs_gateway" {
 
   vm_name         = "nfs-gw01"
   vm_id           = 511
-  target_node     = "pve01"
+  target_node     = "pve03" # actual current node (drifted from pve01, likely HA relocation) -- matches live state, not a real change
   template_vm_id  = 101
   template_node   = "pve02" # current template location; safe to keep updated now that the module ignores clone changes post-creation
   disk_datastore  = "vm_storage"

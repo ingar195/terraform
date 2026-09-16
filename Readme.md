@@ -1,5 +1,22 @@
 # Creating a New VM — Quick Guide
 
+## Setup (first time only)
+
+Terraform needs two credential files in this repo's root before anything else works:
+
+1. **Proxmox API token** → `.pve_api`
+   - Proxmox UI → Datacenter → Permissions → API Tokens → Add
+   - Save it as a single line: `user@realm!token-id=secret`
+2. **MinIO credentials** (Terraform state backend, runs on `tf-state01` / 10.11.0.50) → `.minio_credentials`
+   - Create an access key in the MinIO console
+   - Save as:
+     ```
+     AWS_ACCESS_KEY_ID=...
+     AWS_SECRET_ACCESS_KEY=...
+     ```
+
+Both files are gitignored — never commit them. For every other secret needed across both repos (Ansible vault values, Komodo passkeys, etc.), see `D:\Workspace\ansible\ACCOUNTS_SETUP.md` — that's the full checklist, this is just the two files this repo specifically needs.
+
 ## Overview
 
 ```mermaid
