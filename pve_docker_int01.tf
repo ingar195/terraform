@@ -17,15 +17,16 @@ module "pve_docker_int01" {
   ssh_public_keys = var.ssh_public_keys
 
   notes = <<-EOT
-    Internal (non-DMZ) Docker host -- runs Home Assistant, Node-RED,
-    Grafana, InfluxDB, Mosquitto, ESPHome, zwavejs2mqtt (unused),
-    Homarr, Uptime Kuma, Speedtest-tracker, and the Komodo agent.
-    Renamed from pve-docker02. Zigbee (ConBee II) reaches this VM via
-    USB/IP from mini01, not Proxmox passthrough -- see roles/homeassistant.
-    All service data lives on CephFS (nfs-gw01, export `/pve-docker-int01`),
-    so this VM is fully disposable.
+    **Internal (non-DMZ) Docker host.** Runs Home Assistant, Node-RED, Grafana,
+    InfluxDB, Mosquitto, ESPHome, zwavejs2mqtt (unused), Homarr, Uptime Kuma,
+    Speedtest-tracker, and the Komodo agent.
 
-    Deployed by Terraform (this file) + Ansible roles `docker`, `homeassistant`.
+    - Renamed from `pve-docker02`.
+    - Zigbee (ConBee II) reaches this VM via USB/IP from `mini01`, not Proxmox
+      passthrough -- see `roles/homeassistant`.
+    - All service data lives on CephFS (`nfs-gw01`, export `/pve-docker-int01`),
+      so this VM is fully disposable.
+    - Deployed by Terraform (this file) + Ansible roles `docker`, `homeassistant`.
   EOT
 }
 

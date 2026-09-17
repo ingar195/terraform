@@ -15,7 +15,7 @@ Terraform needs two credential files in this repo's root before anything else wo
      AWS_SECRET_ACCESS_KEY=...
      ```
 
-Both files are gitignored — never commit them. For every other secret needed across both repos (Ansible vault values, Komodo passkeys, etc.), see `D:\Workspace\ansible\ACCOUNTS_SETUP.md` — that's the full checklist, this is just the two files this repo specifically needs.
+Both files are gitignored — never commit them. For every other secret needed across both repos (Ansible vault values, Komodo passkeys, etc.), see [ACCOUNTS_SETUP.md](https://github.com/ingar195/ansible/blob/main/ACCOUNTS_SETUP.md) in the ansible repo — that's the full checklist, this is just the two files this repo specifically needs.
 
 ## Overview
 
@@ -95,7 +95,7 @@ Only reach for `-target` when you specifically want to isolate one change like t
 
 ## 4. Add it to Ansible
 
-In the **ansible repo** (`D:\Workspace\ansible`):
+In the **[ansible repo](https://github.com/ingar195/ansible)**:
 
 1. Add a new group + IP to `hosts.ini` (and mirror it with a placeholder IP in `inventory_public`).
 2. Write (or reuse) a role for the service under `roles/`.
@@ -107,4 +107,4 @@ In the **ansible repo** (`D:\Workspace\ansible`):
 
 - **VMID and IP aren't already in use** — check the Proxmox UI's Server View tree.
 - **`network_bridge`/`gateway` match the trust tier this service belongs in** — internal (`vmbr0`, `10.11.0.1`) vs DMZ (`dmz`, `10.12.0.1`). Don't mix these up for anything internet-facing.
-- **Never change `template_node`/`template_vm_id` on an already-applied resource** — that block is create-time only; see the "clone.node_name is create-time-only" note in `docs/superpowers/plans/2026-09-06-terraform-foundation.md` in the ansible repo for why.
+- **Never change `template_node`/`template_vm_id` on an already-applied resource** — that block is create-time only; see the "clone.node_name is create-time-only" note in [`docs/superpowers/plans/2026-09-06-terraform-foundation.md`](https://github.com/ingar195/ansible/blob/main/docs/superpowers/plans/2026-09-06-terraform-foundation.md) in the ansible repo for why.
