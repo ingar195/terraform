@@ -1,5 +1,6 @@
 locals {
-  effective_dns_servers = length(var.dns_servers) > 0 ? var.dns_servers : [var.gateway]
+  effective_dns_servers     = length(var.dns_servers) > 0 ? var.dns_servers : [var.gateway]
+  effective_data_disk_store = coalesce(var.data_disk_datastore, var.disk_datastore)
 }
 
 resource "proxmox_virtual_environment_vm" "this" {
@@ -41,6 +42,15 @@ resource "proxmox_virtual_environment_vm" "this" {
     datastore_id = var.disk_datastore
     interface    = "scsi0"
     size         = var.disk_size
+  }
+
+  dynamic "disk" {
+    for_each = var.data_disk_size != null ? [1] : []
+    content {
+      datastore_id = local.effective_data_disk_store
+      interface    = "scsi1"
+      size         = var.data_disk_size
+    }
   }
 
   network_device {

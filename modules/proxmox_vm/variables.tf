@@ -53,6 +53,18 @@ variable "disk_datastore" {
   description = "Proxmox storage ID backing the VM disk"
 }
 
+variable "data_disk_size" {
+  type        = number
+  default     = null
+  description = "Optional second disk size in GB (scsi1). Unlike the root disk, this is a fresh disk with no template-clone floor. Leave null for VMs that don't need one -- most don't."
+}
+
+variable "data_disk_datastore" {
+  type        = string
+  default     = null
+  description = "Proxmox storage ID backing the data disk. Defaults to disk_datastore when unset."
+}
+
 variable "network_bridge" {
   type        = string
   default     = "vmbr0"
