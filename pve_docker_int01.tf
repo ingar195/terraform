@@ -6,9 +6,10 @@ module "pve_docker_int01" {
   target_node     = "pve01"
   template_vm_id  = 101
   template_node   = "pve02" # current template location; safe to keep updated now that the module ignores clone changes post-creation
+  cpu_type        = "x86-64-v3" # matches the live VM; module default (v2-AES) would change it on next apply
   cores           = 4
   memory          = 8192
-  disk_size       = 32 # was 100G on the old VM; all real data now lives on CephFS via NFS, so the standard template size is enough
+  disk_size       = 64 # data lives on the local disk again (restored via PBS VM backups); grow only, Proxmox can't shrink
   disk_datastore  = "vm_storage"
   network_bridge  = "servers"
   mac_address     = "BC:24:11:52:FD:13" # pinned to the old pve-docker02's MAC -- this network segment has a MAC-keyed rule somewhere (switch/firewall), confirmed by the new VM being completely unreachable (no ARP reply) with a fresh MAC
@@ -24,8 +25,8 @@ module "pve_docker_int01" {
     - Renamed from `pve-docker02`.
     - Zigbee (ConBee II) reaches this VM via USB/IP from `mini01`, not Proxmox
       passthrough -- see `roles/homeassistant`.
-    - All service data lives on CephFS (`nfs-gw01`, export `/pve-docker-int01`),
-      so this VM is fully disposable.
+    - Service data lives on this VM's own disk (`/opt/docker`) and is covered
+      by the Proxmox/PBS VM backup. Not disposable.
     - Deployed by Terraform (this file) + Ansible roles `docker`, `homeassistant`.
   EOT
 }
